@@ -16,12 +16,27 @@ func (b *Ball) Update() {
 	b.Y += b.Yspeed
 }
 
-func (b *Ball) CheckEdges(maxWidth int, maxHeight int) {
-	if b.X <= 0 || b.X >= maxWidth {
-		b.Xspeed *= -1
-	}
+func (b *Ball) reverseX() {
+	b.Xspeed *= -1
+}
 
+func (b *Ball) reverseY() {
+	b.Yspeed *= -1
+}
+
+func (b *Ball) CheckEdges(maxWidth int, maxHeight int) {
 	if b.Y <= 0 || b.Y >= maxHeight {
-		b.Yspeed *= -1
+		b.reverseY()
 	}
+}
+
+func (b *Ball) intersects(p Paddle) bool {
+	return b.X >= p.X && b.X <= p.X+p.width && b.Y >= p.Y && b.Y <= p.Y+p.height
+}
+
+func (b *Ball) Reset(x int, y int, xSpeed int, ySpeed int) {
+	b.X = x
+	b.Y = y
+	b.Xspeed = xSpeed
+	b.Yspeed = ySpeed
 }
